@@ -24,8 +24,8 @@ if __name__ == '__main__':
   logging.warning('Starting listen on {0} '.format(bind_port))
 
   REGISTRY.register(MailjetCollector(
-      api_key=os.getenv('API_KEY'),
-      secret_key=os.getenv('SECRET_KEY')
+      api_key=api_key,
+      secret_key=secret_key
     )
   )
 

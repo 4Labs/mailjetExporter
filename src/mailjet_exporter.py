@@ -11,8 +11,9 @@ def sigterm_handler(_signo, _stack_frame):
 
 if __name__ == '__main__':
 
-  api_key = get_docker_secret('api_key', getenv=True, autocast_name=False)
-  secret_key = get_docker_secret('secret_key', getenv=True, autocast_name=False)
+  api_key = get_docker_secret('api_key', getenv=True, autocast_name=True)
+  secret_key = get_docker_secret('secret_key', getenv=True, autocast_name=True)
+  billing_day = os.getenv('BILLING_DAY', 1)
 
   # Check for required env vars
   if api_key is None or secret_key is None:
@@ -21,11 +22,12 @@ if __name__ == '__main__':
 
   bind_port = int(os.getenv('BIND_PORT', 80))
   start_http_server(bind_port)
-  logging.warning('Starting listen on {0} '.format(bind_port))
+  #logging.warning('Starting listen on {0} '.format(bind_port))
 
   REGISTRY.register(MailjetCollector(
       api_key=api_key,
-      secret_key=secret_key
+      secret_key=secret_key,
+      billing_day=int(billing_day)
     )
   )
 
